@@ -1,11 +1,26 @@
 # frozen_string_literal: true
 
 module PortOfCall
+  # Command Line Interface for Port of Call
+  #
+  # Provides command-line functionality for interacting with Port of Call.
+  # Available commands:
+  # - server: Start Rails server with calculated port
+  # - port: Show the calculated port
+  # - set: Set port as default in development.rb
+  # - version: Show version information
+  # - help: Display usage information
   class CLI
+    # Start the CLI with the given arguments
+    # @param args [Array<String>] command-line arguments
+    # @return [void]
     def self.start(args)
       new.start(args)
     end
     
+    # Route to the appropriate command
+    # @param args [Array<String>] command-line arguments
+    # @return [void]
     def start(args)
       command = args.shift || "server"
       
@@ -28,6 +43,9 @@ module PortOfCall
     
     private
     
+    # Start the Rails server with the calculated port
+    # @param args [Array<String>] additional arguments for the server
+    # @return [void]
     def start_server(args)
       # Get the calculated port
       port = PortOfCall.calculate_port
@@ -63,6 +81,8 @@ module PortOfCall
       end
     end
     
+    # Show the calculated port
+    # @return [void]
     def show_port
       port = PortOfCall.calculate_port
       project_name = PortOfCall.project_name
@@ -75,6 +95,8 @@ module PortOfCall
       end
     end
     
+    # Set the calculated port as the default in development.rb
+    # @return [void]
     def set_default_port
       if defined?(Rails) && defined?(Rails.root)
         # Use rake task for this
@@ -85,10 +107,14 @@ module PortOfCall
       end
     end
     
+    # Show version information
+    # @return [void]
     def show_version
       puts "Port of Call v#{PortOfCall::VERSION}"
     end
     
+    # Show help information
+    # @return [void]
     def show_help
       puts <<~HELP
         Port of Call v#{PortOfCall::VERSION} - Deterministic port assignment for Rails applications
