@@ -1,14 +1,14 @@
-🌌 Why use Port of Call?
+⛵️ Why use Port of Call?
 =============================
 Do you have multiple Rails apps running on your machine? Tired of conflicts on port 3000? I was, so I vibe-coded this gem.
 
 Port of Call automatically assigns deterministic port numbers to each Rails application based on its name.
 
-🌌🌌 Who's Port of Call for?
+⛵️⛵️ Who's Port of Call for?
 =============================
 Rails developers who tend to work on multiple applications simultaneously
 
-🌌🌌🌌 What exactly does Port of Call do?
+⛵️⛵️⛵️ What exactly does Port of Call do?
 =============================
 Port of Call deterministically assigns port numbers to Rails applications:
 
@@ -19,7 +19,7 @@ Port of Call deterministically assigns port numbers to Rails applications:
 
 The same app always gets the same port on any machine, avoiding conflicts!
 
-🌌🌌🌌🌌 How do I use it?
+⛵️⛵️⛵️⛵️ How do I use it?
 =============================
 1. Install the gem:
    ```ruby
@@ -54,7 +54,7 @@ Rake Tasks:
 - `rake port_of_call:start` - Start Rails server
 - `rake poc` - Shorthand for starting the server
 
-🌌🌌🌌🌌🌌 Extras
+⛵️⛵️⛵️⛵️⛵️ Extras
 =============================
 Configuration:
 ```ruby
