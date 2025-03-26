@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    port_of_call (0.1.0)
+    port_of_call (0.1.0.alpha1)
       rails (>= 6.0)
 
 GEM
@@ -260,4 +260,4 @@ DEPENDENCIES
   yard (~> 0.9)
 
 BUNDLED WITH
-   2.5.23
+   2.6.6
