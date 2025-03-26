@@ -3,18 +3,69 @@
 namespace :port_of_call do
   desc "Print the calculated port for this Rails application"
   task :port => :environment do
-    puts "Port of Call - Calculated port for this application: #{PortOfCall.calculate_port}"
+    port = PortOfCall.calculate_port
+    project_name = PortOfCall.project_name
+    puts "Port of Call - Calculated port for #{project_name}: #{port}"
+    
+    # Check if the port is already in use
+    if PortOfCall.port_in_use?(port)
+      puts "WARNING: Port #{port} is already in use by another process!"
+    end
   end
   
   desc "Start the Rails server with the calculated port"
   task :start => :environment do
-    # This is a placeholder - actual implementation will be in step 4
     port = PortOfCall.calculate_port
-    puts "Starting Rails server on port #{port}"
-    # Will actually start the server in step 4
+    project_name = PortOfCall.project_name
+    
+    puts "Port of Call - Starting Rails server for #{project_name} on port #{port}"
+    
+    # Check if the port is already in use
+    if PortOfCall.port_in_use?(port)
+      puts "WARNING: Port #{port} is already in use by another process!"
+      exit 1
+    end
+    
+    # Start the Rails server with the calculated port
+    system("rails", "server", "-p", port.to_s)
+  end
+  
+  desc "Generate an initializer for Port of Call"
+  task :install => :environment do
+    puts "Generating Port of Call initializer..."
+    system("rails", "generate", "port_of_call:install")
+  end
+  
+  desc "Set the calculated port as the default for this Rails application"
+  task :set_default => :environment do
+    port = PortOfCall.calculate_port
+    project_name = PortOfCall.project_name
+    
+    # Get Rails development.rb config file
+    config_file = Rails.root.join("config", "environments", "development.rb")
+    
+    if File.exist?(config_file)
+      content = File.read(config_file)
+      
+      if content.include?("config.port = ")
+        # Update existing port setting
+        updated_content = content.gsub(/config\.port\s*=\s*\d+/, "config.port = #{port}")
+      else
+        # Add new port setting at the end of the config block
+        updated_content = content.gsub(/(Rails\.application\.configure do.*?)(\nend)/m, "\\1\n  # Port of Call - Assigned port\n  config.port = #{port}\n\\2")
+      end
+      
+      # Write updated content back to the file
+      File.write(config_file, updated_content)
+      
+      puts "Port of Call - Set default port for #{project_name} to #{port} in #{config_file}"
+    else
+      puts "ERROR: Could not find development.rb config file"
+      exit 1
+    end
   end
 end
 
-# Add a shortcut task at the top level
+# Add shortcut tasks at the top level
 desc "Print the calculated port for this Rails application"
 task :port_of_call => "port_of_call:port"
