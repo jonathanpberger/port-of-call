@@ -4,8 +4,12 @@ require "socket"
 require_relative "port_of_call/version"
 require_relative "port_of_call/configuration"
 require_relative "port_of_call/port_calculator"
-require_relative "port_of_call/railtie" if defined?(Rails)
 require_relative "port_of_call/cli"
+
+# Only require Rails-specific code if Rails is defined
+if defined?(Rails) && Rails.respond_to?(:application)
+  require_relative "port_of_call/railtie"
+end
 
 # Port of Call is a Ruby gem that assigns each Rails application a consistent,
 # deterministic port number based on the application's name or repository.

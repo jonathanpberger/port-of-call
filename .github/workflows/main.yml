@@ -18,10 +18,23 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
-      - name: Run the default task
-        run: bundle exec rake
+          
+      - name: Install Rails dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libsqlite3-dev nodejs
+          
+      - name: Install dependencies
+        run: |
+          gem install bundler
+          bundle config set --local without 'development'
+          bundle install --jobs 4 --retry 3
+          
+      - name: Run tests
+        run: bundle exec rspec

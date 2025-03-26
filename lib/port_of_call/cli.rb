@@ -57,27 +57,29 @@ module PortOfCall
         exit 1
       end
       
+      # Check if Rails is available
+      if !rails_available?
+        puts "ERROR: Rails environment not detected"
+        puts "Calculated port for #{project_name}: #{port}"
+        exit 1
+      end
+      
       # Construct server command
-      if defined?(Rails) && defined?(Rails::Server)
-        puts "Port of Call - Starting Rails server for #{project_name} on port #{port}"
+      puts "Port of Call - Starting Rails server for #{project_name} on port #{port}"
         
-        # Add -p option if not already specified
-        unless args.include?("-p") || args.include?("--port")
-          args.unshift("-p", port.to_s)
-        end
+      # Add -p option if not already specified
+      unless args.include?("-p") || args.include?("--port")
+        args.unshift("-p", port.to_s)
+      end
+        
+      # Start server
+      server_class = Object.const_get("Rails::Server")
+      server_class.new(args).tap do |server|
+        # Set port in server options
+        server.options[:Port] = port if server.options[:Port].nil?
         
         # Start server
-        Rails::Server.new(args).tap do |server|
-          # Set port in server options
-          server.options[:Port] = port if server.options[:Port].nil?
-          
-          # Start server
-          server.start
-        end
-      else
-        # Fallback when not running in a Rails context
-        puts "Port of Call - Rails environment not detected"
-        puts "Calculated port for #{project_name}: #{port}"
+        server.start
       end
     end
     
@@ -98,13 +100,13 @@ module PortOfCall
     # Set the calculated port as the default in development.rb
     # @return [void]
     def set_default_port
-      if defined?(Rails) && defined?(Rails.root)
-        # Use rake task for this
-        system("rake", "port_of_call:set_default")
-      else
+      if !rails_available?
         puts "ERROR: Rails environment not detected"
         exit 1
       end
+      
+      # Use rake task for this
+      system("rake", "port_of_call:set_default")
     end
     
     # Show version information
@@ -133,6 +135,12 @@ module PortOfCall
           port_of_call port       # Show the calculated port
           port_of_call set        # Set the calculated port as the default
       HELP
+    end
+    
+    # Check if Rails is available
+    # @return [Boolean] true if Rails is available
+    def rails_available?
+      defined?(Rails) && Rails.respond_to?(:application)
     end
   end
 end
