@@ -1,168 +1,86 @@
-# Port of Call
+🌌 Why use Port of Call?
+=============================
+Do you have multiple Rails apps running on your machine? Tired of conflicts on port 3000? I was, so I vibe-coded this gem.
 
-Port of Call is a Ruby gem that assigns each Rails application a consistent, deterministic port number based on the application's name or repository. This solves the common conflict of multiple Rails apps all defaulting to port 3000.
+Port of Call automatically assigns deterministic port numbers to each Rails application based on its name.
 
-## Installation
+🌌🌌 Who's Port of Call for?
+=============================
+Rails developers who tend to work on multiple applications simultaneously
 
-Add this line to your application's Gemfile:
+🌌🌌🌌 What exactly does Port of Call do?
+=============================
+Port of Call deterministically assigns port numbers to Rails applications:
 
+1. It extracts your application's name from Git or directory name
+2. It creates a hash of the name using SHA256
+3. It maps this hash to a port number within your configured range (default: 3000-3999)
+4. It automatically sets this port when you start your Rails server
+
+The same app always gets the same port on any machine, avoiding conflicts!
+
+🌌🌌🌌🌌 How do I use it?
+=============================
+1. Install the gem:
+   ```ruby
+   # In your Gemfile
+   gem 'port_of_call'
+   ```
+
+2. Bundle install:
+   ```bash
+   $ bundle install
+   ```
+
+3. Generate the initializer (optional):
+   ```bash
+   $ rails generate port_of_call:install
+   ```
+
+4. Run your server as usual:
+   ```bash
+   $ rails server
+   ```
+
+CLI Commands:
+- `port_of_call server` - Start Rails server with calculated port
+- `port_of_call port` - Show the calculated port
+- `port_of_call set` - Set as default port in development.rb
+- `port_of_call -v` - Show version information
+- `port_of_call -h` - Show help
+
+Rake Tasks:
+- `rake port_of_call` - Show calculated port
+- `rake port_of_call:start` - Start Rails server
+- `rake poc` - Shorthand for starting the server
+
+🌌🌌🌌🌌🌌 Extras
+=============================
+Configuration:
 ```ruby
-gem 'port_of_call'
-```
-
-And then execute:
-
-```bash
-$ bundle install
-```
-
-Or install it yourself as:
-
-```bash
-$ gem install port_of_call
-```
-
-After installation, you can generate a configuration initializer:
-
-```bash
-$ rails generate port_of_call:install
-```
-
-## Usage
-
-### Automatic Port Assignment
-
-Once installed, Port of Call will automatically assign a unique port to your Rails application based on its name. Simply start your server as usual:
-
-```bash
-$ rails server
-```
-
-You should see output indicating the port that Port of Call has assigned.
-
-### CLI Commands
-
-Port of Call provides a command-line interface for interacting with the gem:
-
-```bash
-# Start the Rails server with the calculated port
-$ port_of_call server
-
-# Show the calculated port for this application
-$ port_of_call port
-
-# Set the calculated port as the default in development.rb
-$ port_of_call set
-
-# Show version information
-$ port_of_call version
-
-# Display help
-$ port_of_call help
-```
-
-You can also use the shorter aliases:
-
-```bash
-$ port_of_call s    # Same as server
-$ port_of_call p    # Same as port
-$ port_of_call -v   # Same as version
-$ port_of_call -h   # Same as help
-```
-
-### Rake Tasks
-
-Port of Call provides several rake tasks:
-
-```bash
-# Print the calculated port
-$ rake port_of_call
-
-# Start the Rails server with the calculated port
-$ rake port_of_call:start
-
-# Generate the initializer
-$ rake port_of_call:install
-
-# Set the calculated port as the default
-$ rake port_of_call:set_default
-
-# Check if the calculated port is available
-$ rake port_of_call:check
-
-# Show configuration information
-$ rake port_of_call:info
-
-# Shorthand for port_of_call:start
-$ rake poc
-```
-
-### Configuration
-
-You can customize Port of Call by editing the initializer at `config/initializers/port_of_call.rb`:
-
-```ruby
+# In config/initializers/port_of_call.rb
 PortOfCall.configure do |config|
-  # The port range to use (default: 3000..3999)
-  config.port_range = 3000..3999
+  # Change port range (default: 3000..3999)
+  config.port_range = 4000..4999
   
-  # The base port to start from (default: 3000)
-  config.base_port = 3000
-  
-  # Manually set a project name (default: nil, auto-detected)
-  # config.project_name = "my_custom_app_name"
-  
-  # Reserved ports to avoid (default: [])
-  config.reserved_ports = [3333, 4567]
-end
-```
-
-## How It Works
-
-Port of Call uses a deterministic hashing algorithm to assign ports:
-
-1. It determines your project name through one of these methods (in order):
-   - Custom project name from configuration
-   - Git repository name
-   - Directory name
-   - Fallback name ("rails_app")
-   
-2. It applies a SHA256 hash to the project name and maps it to a port within your configured range.
-
-3. It integrates with Rails so the calculated port is used automatically.
-
-## Troubleshooting
-
-### Port Conflicts
-
-If your calculated port is already in use by another process, Port of Call will display a warning. You have a few options:
-
-1. Stop the other process using that port
-2. Configure a different port range to avoid the conflict
-3. Use a custom project name to get a different port
-
-### Custom Project Name
-
-If multiple repositories have similar names or you want a specific port, set a custom project name:
-
-```ruby
-PortOfCall.configure do |config|
+  # Set custom project name
   config.project_name = "my_unique_app_name"
+  
+  # Avoid specific ports
+  config.reserved_ports = [4567, 5000]
 end
+```
+
+Troubleshooting:
+- If your port is already in use, Port of Call will warn you
+- To check port availability: `rake port_of_call:check`
+- For detailed info: `rake port_of_call:info`
+
+GitHub: [github.com/jonathanpberger/port-of-call](https://github.com/jonathanpberger/port-of-call)
+
+License: MIT with additional [disclaimer](LICENSE.txt)
 ```
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-## Contributing
-
-Bug reports and pull requests are welcome on GitHub at https://github.com/jpb/port-of-call.
-
-## License
-
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
-
-### Disclaimer
-
-This software is provided for educational and informational purposes only. The author(s) take no responsibility for any conflicts, errors, or system issues that may arise from using this software. Users are advised to thoroughly test this software in a controlled environment before deploying it in production settings. See the [LICENSE.txt](LICENSE.txt) file for the complete disclaimer.
+After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt.

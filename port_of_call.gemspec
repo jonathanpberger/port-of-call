@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
 
   spec.summary = "Deterministic port assignment for Rails applications"
   spec.description = "Port of Call assigns each Rails application a consistent, deterministic port number based on the application's name or repository. This solves the common conflict of multiple Rails apps all defaulting to port 3000."
-  spec.homepage = "https://github.com/jpb/port-of-claude"
+  spec.homepage = "https://github.com/jonathanpberger/port-of-call"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 3.0.0"
 
