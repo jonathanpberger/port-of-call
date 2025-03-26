@@ -3,5 +3,5 @@
 module PortOfCall
   # Version number for the gem
   # Following Semantic Versioning (https://semver.org/)
-  VERSION = "0.1.0.alpha1"
+  VERSION = "0.1.0.alpha2"
 end
