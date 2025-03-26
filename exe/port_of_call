@@ -3,5 +3,5 @@
 
 require "port_of_call"
 
-# This executable will be used to start the Rails server with the calculated port
+# This executable provides command-line functionality for Port of Call
 PortOfCall::CLI.start(ARGV)

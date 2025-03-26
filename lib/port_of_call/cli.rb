@@ -16,6 +16,8 @@ module PortOfCall
         show_port
       when "set"
         set_default_port
+      when "version", "--version", "-v"
+        show_version
       when "help", "--help", "-h"
         show_help
       else
@@ -83,9 +85,13 @@ module PortOfCall
       end
     end
     
+    def show_version
+      puts "Port of Call v#{PortOfCall::VERSION}"
+    end
+    
     def show_help
       puts <<~HELP
-        Port of Call - Deterministic port assignment for Rails applications
+        Port of Call v#{PortOfCall::VERSION} - Deterministic port assignment for Rails applications
         
         Usage: port_of_call [COMMAND] [OPTIONS]
         
@@ -93,7 +99,8 @@ module PortOfCall
           server, s       Start the Rails server with the calculated port (default)
           port, p         Show the calculated port for this application
           set             Set the calculated port as the default in development.rb
-          help            Show this help message
+          version, -v     Display version information
+          help, -h        Show this help message
         
         Examples:
           port_of_call            # Start the Rails server with the calculated port

@@ -64,8 +64,49 @@ namespace :port_of_call do
       exit 1
     end
   end
+  
+  desc "Check if the calculated port is available"
+  task :check => :environment do
+    port = PortOfCall.calculate_port
+    project_name = PortOfCall.project_name
+    
+    puts "Port of Call - Checking port #{port} for #{project_name}..."
+    
+    if PortOfCall.port_in_use?(port)
+      puts "WARNING: Port #{port} is already in use by another process!"
+      exit 1
+    else
+      puts "Port #{port} is available."
+    end
+  end
+  
+  desc "Show configuration information for Port of Call"
+  task :info => :environment do
+    port = PortOfCall.calculate_port
+    project_name = PortOfCall.project_name
+    config = PortOfCall.configuration
+    
+    puts "Port of Call - Configuration Information"
+    puts "---------------------------------------"
+    puts "Project name:     #{project_name}"
+    puts "Calculated port:  #{port}"
+    puts "Port range:       #{config.port_range}"
+    puts "Base port:        #{config.base_port}"
+    puts "Custom name:      #{config.custom_project_name || 'Not set'}"
+    puts "Reserved ports:   #{config.reserved_ports.empty? ? 'None' : config.reserved_ports.join(', ')}"
+    puts "---------------------------------------"
+    
+    if PortOfCall.port_in_use?(port)
+      puts "WARNING: Port #{port} is already in use by another process!"
+    else
+      puts "Port #{port} is available."
+    end
+  end
 end
 
 # Add shortcut tasks at the top level
 desc "Print the calculated port for this Rails application"
 task :port_of_call => "port_of_call:port"
+
+desc "Start the Rails server with the calculated port"
+task :poc => "port_of_call:start"
