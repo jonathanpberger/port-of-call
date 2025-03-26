@@ -157,8 +157,12 @@ After checking out the repo, run `bin/setup` to install dependencies. Then, run 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/port_of_call.
+Bug reports and pull requests are welcome on GitHub at https://github.com/jpb/port-of-call.
 
 ## License
 
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+
+### Disclaimer
+
+This software is provided for educational and informational purposes only. The author(s) take no responsibility for any conflicts, errors, or system issues that may arise from using this software. Users are advised to thoroughly test this software in a controlled environment before deploying it in production settings. See the [LICENSE.txt](LICENSE.txt) file for the complete disclaimer.

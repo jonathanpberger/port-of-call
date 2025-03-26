@@ -1,6 +1,6 @@
 The MIT License (MIT)
 
-Copyright (c) 2025 JPB
+Copyright (c) 2025 Jonathan P. Berger and contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,3 +19,13 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
+ADDITIONAL DISCLAIMER:
+This software is provided for educational and informational purposes only.
+The author(s) of this software take no responsibility for any conflicts, errors, 
+or system issues that may arise from using this software. Users are advised 
+to thoroughly test this software in a controlled environment before deploying 
+it in production settings. Port conflicts, networking issues, or any other 
+problems that may occur when using this software are solely the responsibility 
+of the user. By using this software, you agree to hold the author(s) harmless 
+from any liability.
