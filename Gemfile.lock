@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    port_of_call (0.1.0.alpha2)
+    port_of_call (1.0.0)
       rails (>= 6.0, < 9.0)
 
 GEM
